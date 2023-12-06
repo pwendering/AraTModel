@@ -1,0 +1,17 @@
+Arabidopsis thaliana seedling lysate
+Bacillus subtilis_168_lysate_R1
+Caenorhabditis elegans lysate
+Danio rerio Zenodo lysate
+Drosophila melanogaster SII lysate
+Escherichia coli cells
+Escherichia coli lysate
+Geobacillus stearothermophilus NCA26 lysate
+Homo sapiens Jurkat cells
+Homo sapiens K562 cells
+Mus musculus BMDC lysate
+Mus musculus liver lysate
+Oleispira antarctica_RB-8_lysate_R1
+Picrophilus torridus DSM9790 lysate
+Saccharomyces cerevisiae lysate
+Thermus thermophilus HB27 cells
+Thermus thermophilus HB27 lysate

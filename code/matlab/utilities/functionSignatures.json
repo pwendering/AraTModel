@@ -1,0 +1,26 @@
+{
+"simulateTempEffects":
+{
+	"inputs":
+	[
+	{"name":"TGEM", "kind":"required", "type":["struct"]},
+	{"name":"I", "kind":"required", "type":["numeric","scalar",">=0"]},
+	{"name":"tempRange", "kind":"namevalue", "type": ["numeric","double"]},
+	{"name":"adjPtotFlag", "kind":"namevalue", "type":["logical","scalar"]},
+	{"name":"adjKcatFlag", "kind":"namevalue", "type":["logical","scalar"]},
+	{"name":"adjThermo", "kind":"namevalue", "type":["logical","scalar"]},
+	{"name":"nRxns", "kind":"namevalue", "type":["numeric","scalar",">0"]},
+	{"name":"saBool", "kind":"namevalue", "type":["logical","scalar"]},
+	{"name":"saPercentage", "kind":"namevalue", "type":["numeric","scalar",">0","<=1"]},
+	{"name":"saParameter", "kind":"namevalue", "type":["char"]},
+	{"name":"visualize", "kind":"namevalue", "type":["logical", "scalar"]},
+	{"name":"solverParams", "kind":"namevalue", "type":["struct"]}
+	],
+	"outputs":
+	[
+	{"name":"simulationResult", "type":["struct"]},
+	{"name":"photParams", "type":["struct"]},
+	{"name":"fvcbParams", "type":["struct"]}
+	]
+}
+}

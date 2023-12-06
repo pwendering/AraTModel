@@ -1,0 +1,142 @@
+{
+"adj_g_m":
+{
+	"inputs":
+	[
+	{"name":"T", "kind":"namevalue", "type":["numeric",">=250"]},
+	{"name":"T_ref", "kind":"namevalue", "type":["numeric","scalar",">=250"]},
+	{"name":"S_c", "kind":"namevalue", "type":["numeric","scalar"]},
+	{"name":"l", "kind":"namevalue", "type":["numeric","scalar"]},
+	{"name":"E", "kind":"namevalue", "type":["numeric","scalar"]},
+	{"name":"method", "kind":"namevalue", "type":["char","choices={'walker','caemmerer','niinemets','empirical'}"]},
+	{"name":"Q10", "kind":"namevalue", "type":["numeric","scalar"]},
+	{"name":"g_m_ref", "kind":"namevalue", "type":["numeric","scalar"]},
+	{"name":"c", "kind":"namevalue", "type":["numeric","scalar"]},
+	{"name":"DHa", "kind":"namevalue", "type":["numeric","scalar"]},
+	{"name":"DHd", "kind":"namevalue", "type":["numeric","scalar"]},
+	{"name":"DS", "kind":"namevalue", "type":["numeric","scalar"]}
+	]
+},
+"adj_j_max":
+{
+    "inputs":
+    [
+    {"name":"T", "kind":"namevalue", "type":["numeric",">=250"]},
+    {"name":"J_max_ref", "kind":"namevalue", "type":["numeric","scalar"]},
+    {"name":"H_a", "kind":"namevalue", "type":["numeric","scalar"]},
+    {"name":"H_d", "kind":"namevalue", "type":["numeric","scalar"]},
+    {"name":"S_v", "kind":"namevalue", "type":["numeric","scalar"]},
+    {"name":"T_ref", "kind":"namevalue", "type":["numeric",">=250"]}
+    ]
+},
+"adj_k_c":
+{
+    "inputs":
+    [
+    {"name":"T", "kind":"namevalue", "type":["numeric",">=250"]},
+    {"name":"k25", "kind":"namevalue", "type":["numeric","scalar"]}
+    ]
+},
+"adj_k_o":
+{
+    "inputs":
+    [
+    {"name":"T", "kind":"namevalue", "type":["numeric",">=250"]},
+    {"name":"k25", "kind":"namevalue", "type":["numeric","scalar"]}
+    ]
+},
+"adj_Kc":
+{
+    "inputs":
+    [
+    {"name":"T", "kind":"namevalue", "type":["numeric",">=250"]},
+    {"name":"c", "kind":"namevalue", "type":["numeric","scalar"]},
+    {"name":"DHa", "kind":"namevalue", "type":["numeric","scalar"]}
+    ]
+},
+"adj_Ko":
+{
+    "inputs":
+    [
+    {"name":"T", "kind":"namevalue", "type":["numeric",">=250"]},
+    {"name":"c", "kind":"namevalue", "type":["numeric","scalar"]},
+    {"name":"DHa", "kind":"namevalue", "type":["numeric","scalar"]}
+    ]
+},
+"adj_s_co":
+{
+    "inputs":
+    [
+    {"name":"T", "kind":"namevalue", "type":["numeric",">=250"]},
+    {"name":"k25", "kind":"namevalue", "type":["numeric","scalar",">0"]},
+    {"name":"Ea", "kind":"namevalue", "type":["numeric","scalar","<0"]}
+    ]
+},
+"adj_v_c_max":
+{
+    "inputs":
+    [
+    {"name":"T", "kind":"namevalue", "type":["numeric",">=250"]},
+    {"name":"k25", "kind":"namevalue", "type":["numeric","scalar",">0"]},
+    {"name":"c", "kind":"namevalue", "type":["numeric","scalar"]},
+    {"name":"DHa", "kind":"namevalue", "type":["numeric","scalar"]}
+    ]
+},
+"adjustParameterToTemperature":
+{
+	"inputs":
+	[
+	{"name":"p_ref", "kind":"namevalue", "type":["numeric","scalar"]},
+	{"name":"Ea", "kind":"namevalue", "type":["numeric","scalar"]},
+	{"name":"T_dest", "kind":"namevalue", "type":["numeric","scalar"]},
+	{"name":"T_ref", "kind":"namevalue", "type":["numeric","scalar"]}
+	]
+},
+"vpd":
+{
+	"inputs":
+	[
+	{"name":"T", "kind":"namevalue", "type":["numeric","scalar",">=250"]},
+	{"name":"rh", "kind":"namevalue", "type":["numeric","scalar",">0"]}
+	]
+},
+"farquhar":
+{
+	"inputs":
+	[
+	{"name":"T", "kind":"namevalue", "type":["numeric","double"]},
+	{"name":"O", "kind":"namevalue", "type":["numeric","double","scalar"]},
+	{"name":"C", "kind":"namevalue", "type":["numeric","double","scalar"]},
+	{"name":"I", "kind":"namevalue", "type":["numeric","double","scalar"]},
+	{"name":"V_c_max", "kind":"namevalue", "type":["numeric","double","scalar"]},
+	{"name":"K_c", "kind":"namevalue", "type":["numeric","double","scalar"]},
+	{"name":"K_o", "kind":"namevalue", "type":["numeric","double","scalar"]},
+	{"name":"kc", "kind":"namevalue", "type":["numeric","double","scalar"]},
+	{"name":"ko", "kind":"namevalue", "type":["numeric","double","scalar"]},
+	{"name":"J_max", "kind":"namevalue", "type":["numeric","double","scalar"]},
+	{"name":"R_d", "kind":"namevalue", "type":["numeric","double","scalar"]},
+	{"name":"E_a", "kind":"namevalue", "type":["struct"]},
+	{"name":"TPU", "kind":"namevalue", "type":["numeric","double","scalar"]}
+	],
+	"outputs":
+	[
+	{"name":"A", "type":["numeric","double"]},
+	{"name":"R_d", "type":["numeric","double"]},
+	{"name":"phi", "type":["numeric","double"]},
+	{"name":"gamma", "type":["numeric","double"]}
+	]
+},
+"addCO2UptakeConstraints":
+{
+    "inputs":
+    [
+    {"name":"model", "kind":"required", "type":["stuct"]},
+    {"name":"T", "kind":"required", "type":["numeric",">=250"]},
+    {"name":"I", "kind":"required", "type":["numeric","scalar"]},
+    {"name":"saBool", "kind":"namevalue", "type":["logical","scalar"]},
+	{"name":"saPercentage", "kind":"namevalue", "type":["numeric","scalar",">0","<=1"]},
+	{"name":"saParameter", "kind":"namevalue", "type":["char"]},
+    {"name":"scaling", "kind":"namevalue", "type":["numeric","scalar",">0"]}
+    ]
+}
+}
