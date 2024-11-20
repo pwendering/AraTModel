@@ -121,7 +121,7 @@ model.lb(TRANS_IDX) = E * 1e-6 * fvcb2fba;
 % Specificity of RuBisCO for CO2 over O2
 S_co = (k_c/K_c)*(K_o/k_o);
 % ratio of oxygenation rate to carboxylation rate
-phi = model.O_a/S_co/model.C_a;
+phi = config('gamma')/S_co;
 % light saturated potential rate of electron transport
 J_max = adj_j_max('J_max_ref', model.J_max,'T', T);
 % released CO2 per oxygenation
@@ -135,7 +135,7 @@ I2 = I*absorptance*(1-sqcf)/2;
 % convexity factor for the irradiance-J relationship
 theta = config('theta');
 % additional variable Y
-Y = alpha * phi;
+Y = alpha * config('gamma') / S_co;
 % potential electron transport rate
 J = (I2 + J_max - sqrt((I2+J_max)^2 - 4*theta*I2*J_max)) / (2*theta);
 % right-hand side for the electron transport rate-limited net CO2
@@ -168,7 +168,7 @@ c1 = 1/P/r; % mol m^-2 s^-1 bar^-1
 c2 = E/2/P; % mol m^-2 s^-1 bar^-1
 c3 = c1 - c2; % mol m^-2 s^-1 bar^-1
 c4 = c1 + c2; % mol m^-2 s^-1 bar^-1
-c5 = K_c*model.O_a/K_o/model.C_a; % unitless
+c5 = config('gamma')*K_c/K_o; % unitless
 c6 = (1 + c5)/ g_m; % bar m^2 s mol^-1
 % allowed deviation of phi from the calculated value
 tau = config('tau');
