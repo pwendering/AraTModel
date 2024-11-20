@@ -158,7 +158,6 @@ for i = 1:numel(cats)
     hold on
     plt2 = scatter(g_array(c), A_exp, A_far, msz, 'filled',...
         'CData', colors(bins,:),...
-        'Marker', 'd',...
         'MarkerEdgeColor', 'k');
     text(g_array(c), 0.04, 0.92, letters(c),...
         'units', 'normalized',...
@@ -221,7 +220,7 @@ for i = 1:numel(g_array)
     set(g_array(i), 'ylim', [-10 30])
 end
 
-saveas(gcf, 'a_net_exp_scatter_20231030.svg')
+saveas(gcf, 'a_net_exp_scatter.svg')
 
 %% CV and correlation
 
