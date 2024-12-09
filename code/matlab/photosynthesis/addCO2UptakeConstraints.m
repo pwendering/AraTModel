@@ -74,16 +74,20 @@ LMA = model.lma_model(T);
 
 %% adjust kinetic and diffusion parameters to temperature
 
+% increase selected parameter when performing sensitivity analysis
+% increase base parameters before temperature adjustment (if possible)
+if saBool && ismember(saParameter, {'V_c_max', 'K_c', 'K_o', 'k_c', ...
+        'k_o', 'J_max', 'g_m', 'LMA'})
+    if isequal(saParameter, 'LMA')
+        LMA = (1+saPercentage) * LMA;
+    else
+        model.(saParameter) = (1+saPercentage) * model.(saParameter);
+    end
+end
+
 % conversion factors between model units and C3 photosynthesis model parameters
 fvcb_scaling = config('fvcb_scaling');
 fvcb2fba = fvcb_scaling * 3600 / 1000 / LMA;
-
-% increase selected parameter when performing sensitivity analysis
-% increase base parameters before temperature adjustment (if possible)
-if saBool && ismember(saParameter, {'V_c_max', 'K_c', 'K_o', 'S_co',...
-        'E_a.K_c', 'E_a.K_o', 'E_a.V_c_max', 'E_a.S_co', 'k_c', 'k_o'})
-    eval(['model.' saParameter '= (1+' num2str(saPercentage) ')*' 'model.' saParameter ';']);
-end
 
 % Michaelis constant for carboxylation reaction of RuBisCO [ubar]
 K_c = adj_Kc('T',T);
@@ -97,8 +101,19 @@ k_o = adj_k_o('k25',model.k_o,'T',T);
 V_c_max = adj_v_c_max('k25', model.V_c_max, 'T', T);
 % Mesophyll conductance [mol bar-1 m-2 s-1]
 g_m = adj_g_m('T',T,'g_m_ref',model.g_m,'method',config('g_m_method'));
+% change g_m if we are running a sensitivity analysis
+if saBool && isequal(saParameter, 'g_m') ...
+        && ismember(config('g_m_method'), {'caemmerer', 'empirical'})
+    % only change g_m here if the temperature adjustment does not require a
+    % reference value
+     g_m = (1+saPercentage) * g_m;
+end
 % Stomatal conductance [mol m^-2 s^-1]
 g_s = adj_g_s(T);
+% change g_s if we are running a sensitivity analysis
+if saBool && isequal(saParameter, 'g_s')
+     g_s = (1+saPercentage) * g_s;
+end
 % Saturation vapour pressure as proxy for intercellular water vapour pressure [bar]
 [~, e_i] = vpd('T', T);
 e_i = pascal2bar(e_i);
@@ -106,8 +121,12 @@ e_i = pascal2bar(e_i);
 e_a = e_i - 0.01;
 % atmospheric pressure [bar]
 P = model.P;
-% boudary layer resistance to water vapour (as in Farquhar and Wong 1984) [m^2 s mol^-1]
+% boundary layer resistance to water vapour (as in Farquhar and Wong 1984) [m^2 s mol^-1]
 r_b = model.r_b;
+% change r_b if we are running a sensitivity analysis
+if saBool && isequal(saParameter, 'r_b')
+     r_b = (1+saPercentage) * r_b;
+end
 % stomatal resistance [m^2 s mol^-1]
 r_s = 1/g_s;
 % total resistance to CO2 [m^2 s mol^-1]
@@ -145,8 +164,8 @@ A_j_rhs = A_j_rhs * fvcb2fba; % [mmol gDW^-1 h^-1]
 
 % increase selected parameter when performing sensitivity analysis
 % increase parameter if it does not have a reference value
-if saBool && ismember(saParameter, {'g_m', 'g_s', 'LMA', 'phi'})
-    eval([saParameter '= (1+' num2str(saPercentage) ')*' saParameter ';']);
+if saBool && isequal(saParameter, 'phi')
+    phi = (1+saPercentage) * phi;
 end
 
 % create output structure for adjusted parameters
