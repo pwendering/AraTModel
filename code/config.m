@@ -237,9 +237,10 @@ S_co = 2615;
 % is expected that the ratio will be different from the ratio of ambient O2
 % and CO2. Therefore, we introduced a parameter gamma, which allows setting
 % the ratio of chloroplastic O2 and CO2 to a specified value. For instance
-% in the FvCB model, the ambient O2 and intercellular CO2 partia pressures 
+% in the FvCB model, the ambient O2 and intercellular CO2 partial pressures 
 % were used to calulate the ratio between oxygenation and carboxylation,
-% phi.
+% phi. In this case, gamma would equal to 1.33 * O_a / C_a, assuming a
+% ratio of 0.75 between Ci and Ca.
 gamma = O_a / C_a;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %          |---------------------------------------------------|
