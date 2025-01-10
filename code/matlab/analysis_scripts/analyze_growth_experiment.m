@@ -92,8 +92,7 @@ rem_col_idx = ~cellfun(@isempty, rgr_tab.comment);
 rgr_tab(rem_col_idx, :) = [];
 
 % read SI table to match expected phenotypes
-lookup_tab = readtable(fullfile(file_path, 'si_table_ko_predictions.xlsx'),...
-    'Sheet', 'SI Table');
+lookup_tab = readtable(fullfile(file_path, 'si_table_ko_predictions.xlsx'));
 effects = cellfun(@(x)unique(lookup_tab.expectedPhenotype(ismember(lookup_tab.GeneID, x))),...
     rgr_tab.Gene, 'un', 0);
 effects(ismember(rgr_tab.Gene, 'WT')) = {'WT'};
@@ -150,7 +149,7 @@ effect_uniq = unique(rgr_tab_uniq.effect);
 ko_uniq = setdiff(rgr_tab_uniq.Gene, 'WT', 'stable');
 
 % colors for predicted effects
-colors = [[205, 86, 168]; [98, 182, 80]; [106, 140, 205]]/255;
+colors = [[231,115,127]; [134,210,107]; [96,129,212]]/255;
 
 % create a joint matrix for plotting, padded with nan
 plot_matrix = nan(10, numel(ko_uniq)*4);
@@ -228,7 +227,7 @@ h = findobj(ax, 'Tag', 'Box');
 box_colors_sort = box_colors(size(box_colors, 1):-1:1, :);
 for j = 1:numel(h)
     patch(get(h(j), 'XData'), get(h(j), 'YData'), box_colors_sort(j, :),...
-        'FaceAlpha', .5);
+        'FaceAlpha', 0.5);
 end
 hold(ax, 'on')
 % add data points on top of boxes
