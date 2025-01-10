@@ -6,7 +6,7 @@ The code was tested on both Windows 10 and Ubuntu 20.04.3 LTS.
 
 To execute the code, the following software must be installed
 
-* Matlab (tested with 2020a/b)
+* Matlab (tested with 2020a/b and 2024a)
 * [Gurobi solver](https://www.gurobi.com/) (tested with version 9.1.1)
 * [COBRA toolbox](https://opencobra.github.io/cobratoolbox/stable/) for Matlab
 * (only for statistics of growth experiment) R programming language (tested with version 4.1.2)
