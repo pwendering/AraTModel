@@ -32,7 +32,7 @@ histogram(T_m(~isnan(T_m)))
 xlabel('T_m (°C)')
 ylabel('Count')
 
-text(0.08, 0.9, 'A',...
+text(0.08, 0.9, '(a)',...
     'Fontname', 'Arial', 'FontSize', 14, 'fontweight', 'bold', 'Units', 'normalized')
 
 set(gca,...
@@ -60,7 +60,7 @@ xticks([0 10 20 30 40 50])
 xlabel('T_{opt} (°C)')
 ylabel('Count')
 
-text(0.08, 0.9, 'B',...
+text(0.08, 0.9, '(b)',...
     'Fontname', 'Arial', 'FontSize', 14, 'fontweight', 'bold', 'Units', 'normalized')
 
 set(gca,...
@@ -95,7 +95,7 @@ cb.Title.String = 'R^2_{adj}';
 xlabel('T_m (°C)')
 ylabel('T_{opt} (°C)')
 
-text(0.08, 0.9, 'C',...
+text(0.08, 0.9, '(c)',...
     'Fontname', 'Arial', 'FontSize', 14, 'fontweight', 'bold', 'Units', 'normalized')
 
 set(gca,...
@@ -119,7 +119,7 @@ cb.Title.String = 'R^2_{adj}';
 xlabel('T_m (°C)')
 ylabel('T_{opt} (°C)')
 
-text(0.08, 0.9, 'D',...
+text(0.08, 0.9, '(d)',...
     'Fontname', 'Arial', 'FontSize', 14, 'fontweight', 'bold', 'Units', 'normalized')
 
 set(gca,...
@@ -169,7 +169,7 @@ xlabel('Temperature (°C)')
 yticks(logspace(-5, 5, 6))
 ylabel('log_{10} k_{cat} (s^{-1})')
 
-text(0.08, 0.96, 'E',...
+text(0.08, 0.96, '(e)',...
     'Fontname', 'Arial', 'FontSize', 14, 'fontweight', 'bold', 'Units', 'normalized')
 
 set(gca,...
@@ -190,25 +190,25 @@ DS = model.DS;
 tiledlayout(2,3)
 
 letter_fs = 14;
-letter_xpos = 0.02;
+letter_xpos = -0.05;
 letter_ypos = 1.1;
 
 nexttile
 histogram(DCp(DCp~=0), 'FaceColor', [.9 .9 .9], 'NumBins', 20)
 ylabel('Count', 'Interpreter', 'latex')
-text(letter_xpos, letter_ypos, 'A', 'FontName', 'Arial', 'FontWeight', 'bold',...
+text(letter_xpos, letter_ypos, '(a)', 'FontName', 'Arial', 'FontWeight', 'bold',...
     'FontSize', letter_fs, 'Units', 'normalized')
 set(gca, 'Box', 'off', 'FontSize', 12)
 
 nexttile
 histogram(DH(DH~=0), 'FaceColor', [.9 .9 .9], 'NumBins', 20)
-text(letter_xpos, letter_ypos, 'B', 'FontName', 'Arial', 'FontWeight', 'bold',...
+text(letter_xpos, letter_ypos, '(b)', 'FontName', 'Arial', 'FontWeight', 'bold',...
     'FontSize', letter_fs, 'Units', 'normalized')
 set(gca, 'Box', 'off', 'FontSize', 12)
 
 nexttile
 histogram(DS(DS~=0), 'FaceColor', [.9 .9 .9], 'NumBins', 20)
-text(letter_xpos, letter_ypos, 'C', 'FontName', 'Arial', 'FontWeight', 'bold',...
+text(letter_xpos, letter_ypos, '(c)', 'FontName', 'Arial', 'FontWeight', 'bold',...
     'FontSize', letter_fs, 'Units', 'normalized')
 set(gca, 'Box', 'off', 'FontSize', 12)
 
@@ -217,7 +217,7 @@ scatter(DCp(DCp~=0), DS(DS~=0), 30, 'filled', 'MarkerFaceColor', [.9 .9 .9],...
     'MarkerEdgeColor', [.4 .4 .4])
 xlabel('${\Delta}C_p^{\ddagger}$', 'Interpreter', 'latex')
 ylabel('${\Delta}S_{T_0}^{\ddagger}$', 'Interpreter', 'latex')
-text(letter_xpos, letter_ypos, 'D', 'FontName', 'Arial', 'FontWeight', 'bold',...
+text(letter_xpos, letter_ypos, '(d)', 'FontName', 'Arial', 'FontWeight', 'bold',...
     'FontSize', letter_fs, 'Units', 'normalized')
 set(gca,'Box', 'off', 'FontSize', 12)
 
@@ -226,7 +226,7 @@ scatter(DH(DH~=0), DCp(DCp~=0), 30, 'filled', 'MarkerFaceColor', [.9 .9 .9],...
     'MarkerEdgeColor', [.4 .4 .4])
 xlabel('${\Delta}H_{T_0}^{\ddagger}$', 'Interpreter', 'latex')
 ylabel('${\Delta}C_p^{\ddagger}$', 'Interpreter', 'latex')
-text(letter_xpos, letter_ypos, 'E', 'FontName', 'Arial', 'FontWeight', 'bold',...
+text(letter_xpos, letter_ypos, '(e)', 'FontName', 'Arial', 'FontWeight', 'bold',...
     'FontSize', letter_fs, 'Units', 'normalized')
 set(gca, 'Box', 'off', 'FontSize', 12)
 
@@ -235,7 +235,7 @@ scatter(DS(DS~=0), DH(DH~=0), 30, 'filled', 'MarkerFaceColor', [.9 .9 .9],...
     'MarkerEdgeColor', [.4 .4 .4])
 xlabel('${\Delta}S_{T_0}^{\ddagger}$', 'Interpreter', 'latex')
 ylabel('${\Delta}H_{T_0}^{\ddagger}$', 'Interpreter', 'latex')
-text(letter_xpos, letter_ypos, 'F', 'FontName', 'Arial', 'FontWeight', 'bold',...
+text(letter_xpos, letter_ypos, '(f)', 'FontName', 'Arial', 'FontWeight', 'bold',...
     'FontSize', letter_fs, 'Units', 'normalized')
 set(gca, 'Box', 'off', 'FontSize', 12)
 

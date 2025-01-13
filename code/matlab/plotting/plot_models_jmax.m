@@ -22,6 +22,12 @@ gamma_star = 0.5*210000./adj_s_co(celsius2kelvin(linspace(10,40,100)));
 A_fun = @(J_max)((I2 + J_max - sqrt((I2+J_max).^2 - 4*theta*I2*J_max)) / ...
     (2*theta).*(C-gamma_star))./(4*C+8*gamma_star)-Rd;
 
+fig = figure;
+
+% color blind friendly palette
+colors = [[51 34 136]; [17 119 51]; [136 204 238]; [221 204 119]; ...
+    [204 102 119]]/255;
+
 %% Bunce 2008
 % Gaussian function
 % a     value of Jmax at the optimum temperature
@@ -39,9 +45,9 @@ bunce_jmax_f = @(T,a)a*exp(-0.5*((T-39.6)/18.1).^2);
 jmax_bunce_288 = bunce_jmax_f(T_range, 288);
 jmax_bunce_138 = bunce_jmax_f(T_range, 138.5);
 
-plot(T_range, A_fun(jmax_bunce_288), 'LineWidth', 2)
+plot(T_range, A_fun(jmax_bunce_288), 'LineWidth', 2, 'Color', colors(1, :))
 hold on
-plot(T_range, A_fun(jmax_bunce_138), 'LineWidth', 2)
+plot(T_range, A_fun(jmax_bunce_138), 'LineWidth', 2, 'Color', colors(2, :))
 
 %% Farquhar 1980
 % entropy [J mol-1 K-1]
@@ -62,7 +68,7 @@ farquhar_jmax_f = @(T)J_max_25*exp(((T-298.15)./298.15).*(E_a.J_max)./(R*T)) ...
 
 jmax_farquhar_138 = farquhar_jmax_f(celsius2kelvin(T_range));
 
-plot(T_range, A_fun(jmax_farquhar_138), 'LineWidth', 2)
+plot(T_range, A_fun(jmax_farquhar_138), 'LineWidth', 2, 'Color', colors(3, :))
 
 %% Leuning 2002
 % modified Arrhenius function
@@ -94,7 +100,7 @@ jmax_leuning_av = leuning_jmax_f(celsius2kelvin(T_range));
 J_max = 138.5;
 jmax_leuning_138 = jmax_leuning_av*J_max;
 
-plot(T_range, A_fun(jmax_leuning_138), 'LineWidth', 2)
+plot(T_range, A_fun(jmax_leuning_138), 'LineWidth', 2, 'Color', colors(4, :))
 
 %% Ali 2015
 % Four different models
@@ -115,7 +121,7 @@ ali_jmax_model1_138_f = @(T)138.5*((0.8*2.4).^(0.1.*(T-T_0))) .* ...
     (1 + exp((S_v*T-H_d)/R/T));
 jmax_ali_model1_138 = ali_jmax_model1_138_f(celsius2kelvin(T_range));
 
-plot(T_range, A_fun(jmax_ali_model1_138), 'LineWidth', 2)
+plot(T_range, A_fun(jmax_ali_model1_138), 'LineWidth', 2, 'Color', colors(5, :))
 
 %% improve figure
 legend(...
@@ -132,6 +138,6 @@ set(gca,...
     'box', 'off',...
     'LineWidth', 1.3,...
     'YLim', [y_limits(1) 1.3*y_limits(2)])
-set(gcf, 'OuterPosition', [-1201 247 348 364])
+set(fig, 'OuterPosition', [-1201 247 348 364])
 
-exportgraphics(gcf, 'j_max_models.png')
+exportgraphics(fig, 'j_max_models.png')
