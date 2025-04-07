@@ -24,6 +24,7 @@
     {"name":"K_c", "kind":"namevalue"},
     {"name":"K_o", "kind":"namevalue"},
     {"name":"S_co", "kind":"namevalue"},
+    {"name":"gamma", "kind":"namevalue"},
     {"name":"V_c_max", "kind":"namevalue"},
     {"name":"J_max", "kind":"namevalue"},
     {"name":"r_b", "kind":"namevalue"},

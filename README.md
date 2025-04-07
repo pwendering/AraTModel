@@ -6,7 +6,7 @@ The code was tested on both Windows 10 and Ubuntu 20.04.3 LTS.
 
 To execute the code, the following software must be installed
 
-* Matlab (tested with 2020a/b)
+* Matlab (tested with 2020a/b and 2024a)
 * [Gurobi solver](https://www.gurobi.com/) (tested with version 9.1.1)
 * [COBRA toolbox](https://opencobra.github.io/cobratoolbox/stable/) for Matlab
 * (only for statistics of growth experiment) R programming language (tested with version 4.1.2)
@@ -14,7 +14,9 @@ To execute the code, the following software must be installed
 ### Setup
 
 Clone this repository by running the following code in the command line
-```git clone https://github.com/pwendering/AraTModel```
+```
+git clone https://github.com/pwendering/AraTModel
+```
 
 Change into the `AraTModel`directory and run `config` to add the functions to the Matlab search path.
 
@@ -38,7 +40,9 @@ The function takes two required input arguments:
 By default, a simulations will be carried out at temperatures between 10 °C and 40 °C.
 
 Optional input arguments can be given as key-value pairs. For instance, a custom temperature range (20 °C to 30 °C) can be used:
-```simulationResult = simulateTempEffects(TGEM, I, 'tempRange', celsius2kelvin(20:30))```
+```
+simulationResult = simulateTempEffects(TGEM, I, 'tempRange', celsius2kelvin(20:30))
+```
 
 The function returns up to four results:
 * `simulationResult`: growth rates (`mu`) and net CO<sub>2</sub> assimilation rates (`A`) and the underlying flux distributions from with and without minimization of total flux

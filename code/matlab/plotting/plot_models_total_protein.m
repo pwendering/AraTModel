@@ -29,47 +29,59 @@ functionDefinitions = {
 fig = figure;
 hold on
 lw = 1.5;
+
+% color blind friendly palette
+colors = [[51 34 136]; [17 119 51]; [136 204 238]; [221 204 119]; ...
+    [204 102 119]; [170 68 153]; [136 34 85]]/255;
+
 p = zeros(8,1);
 
 % simple linear model
 lm = fitlm(X,Y);
-p(1) = plot(tempRange,lm.predict(tempRange'), 'LineWidth', lw);
+p(1) = plot(tempRange,lm.predict(tempRange'), 'LineWidth', lw, ...
+    'Color', colors(1, :));
 rmse(1) = sqrt(lm.MSE);
 
 % polynomial model, coefficient 2
 modelFunction = @(F,T) F(1).*(T.^2) + F(2).*T + F(3);
 [nlm,~,~,~,MSE] =  nlinfit(X,Y,modelFunction,[1 1 1]);
-p(2) = plot(tempRange,modelFunction(nlm,tempRange), 'LineWidth', 1.5);
+p(2) = plot(tempRange,modelFunction(nlm, tempRange), 'LineWidth', lw, ...
+    'Color', colors(2, :));
 rmse(2) = sqrt(MSE);
 
 % polynomial model, coefficient 3
 modelFunction = @(F,T) F(1).*(T.^3) + F(2).*(T.^2) + F(3).*T + F(4);
 [nlm,~,~,~,MSE] = nlinfit(X,Y,modelFunction,[1 1 1 1]);
-p(3) = plot(tempRange,modelFunction(nlm,tempRange), 'LineWidth', lw);
+p(3) = plot(tempRange,modelFunction(nlm,tempRange), 'LineWidth', lw, ...
+    'Color', colors(3, :));
 rmse(3) = sqrt(MSE);
 
 % polynomial model, coefficient 4
 modelFunction = @(F,T) F(1).*(T.^4) + F(2).*(T.^3) + F(3).*(T.^2) + F(4).*T + F(5);
 [nlm,~,~,~,MSE] = nlinfit(X,Y,modelFunction,[1 1 1 1 1]);
-p(4) = plot(tempRange,modelFunction(nlm,tempRange), 'LineWidth', lw);
+p(4) = plot(tempRange,modelFunction(nlm,tempRange), 'LineWidth', lw, ...
+    'Color', colors(4, :));
 rmse(4) = sqrt(MSE);
 
 % sigmoid function
 modelFunction = @(F,T) F(1) ./ (1+exp(1+F(2)./T)) + F(3);
 [nlm,~,~,~,MSE] = nlinfit(X,Y,modelFunction,[max(max(Y_raw)) 1 1 min(min(Y_raw))]);
-p(5) = plot(tempRange,modelFunction(nlm,tempRange), 'LineWidth', lw);
+p(5) = plot(tempRange,modelFunction(nlm,tempRange), 'LineWidth', lw, ...
+    'Color', colors(5, :));
 rmse(5) = sqrt(MSE);
 
 % beta growth function
 modelFunction = @(F,T) F(1)*(1+(F(2)+T)./(F(2)-F(3))).*(-T./F(2)).^(F(2)/(F(2)-F(3)));
 [nlm,~,~,~,MSE] = nlinfit(X,Y,modelFunction,[max(max(Y_raw)) -10 1]);
-p(6) = plot(tempRange,modelFunction(nlm,tempRange), 'LineWidth', lw);
+p(6) = plot(tempRange,modelFunction(nlm,tempRange), 'LineWidth', lw, ...
+    'Color', colors(6, :));
 rmse(6) = sqrt(MSE);
 
 % similar to gamma PDF
 modelFunction = @(F,T) (1/F(1).^F(2)) .* T.^(F(2)-F(3)) .* exp(-T/F(1));
 [nlm,~,~,~,MSE] = nlinfit(X,Y,modelFunction,[1 1 1]);
-p(7) = plot(tempRange,modelFunction(nlm,tempRange), 'LineWidth', lw);
+p(7) = plot(tempRange,modelFunction(nlm,tempRange), 'LineWidth', lw, ...
+    'Color', colors(7, :));
 rmse(7) = sqrt(MSE);
 
 % experimental data
@@ -91,5 +103,5 @@ xlabel('Temperature (°C)')
 ylabel('Total protein content (g gDW^{-1})')
 ylim([0 .5])
 set(gca, 'FontSize', 12, 'FontName', 'Arial')
-set(gcf, 'OuterPosition', [353.6667   93.6667  742.6667  605.3333])
-saveas(gcf,'ath-total-protein-models.png')
+set(fig, 'OuterPosition', [353.6667   93.6667  742.6667  605.3333])
+saveas(fig,'ath-total-protein-models.png')

@@ -476,7 +476,7 @@ end
         
         validTemp = @(T) isnumeric(T) && all(T >= 273.15) && all(T <= 373.15);
         validNrRxns = @(n) n <= numel(args{1}.rxns);
-        validSaPerc = @(p) 0 < p && p <= 1;
+        validSaPerc = @(p) -1 < p && p <= 1;
         
         p = inputParser;
         

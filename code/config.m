@@ -175,7 +175,6 @@ RH = 75;
 % This parameter sets the value for the atmospheric pressure. The standard
 % value is 1.01325 bar or 1 atm.
 P = 1.01325;
-
 %% Parameters for Farquhar photosynthesis model (Farquhar et al. 1980)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %            |----------------------------------------------|
@@ -227,6 +226,21 @@ K_o = 201000;
 % calculated by
 %              S_co = ( k_c / K_c ) * ( K_o / k_o ) .
 S_co = 2615;
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%        |---------------------------------------------------------|
+%        |  Ratio between chloroplastic O2 and CO2 concentrations  |
+%        |---------------------------------------------------------|
+%
+% At the time of generating this model, we were not aware of a reliable way
+% to estimate or model the O2 concentration in the chloroplast. However, it
+% is expected that the ratio will be different from the ratio of ambient O2
+% and CO2. Therefore, we introduced a parameter gamma, which allows setting
+% the ratio of chloroplastic O2 and CO2 to a specified value. For instance
+% in the FvCB model, the ambient O2 and intercellular CO2 partial pressures 
+% were used to calulate the ratio between oxygenation and carboxylation,
+% phi. In this case, gamma would equal to 1.33 * O_a / C_a, assuming a
+% ratio of 0.75 between Ci and Ca.
+gamma = O_a / C_a;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %          |---------------------------------------------------|
 %          |  Maximum carboxylation velocity [umol m^-2 s^-1]  |

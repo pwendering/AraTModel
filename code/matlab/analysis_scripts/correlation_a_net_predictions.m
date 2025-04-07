@@ -52,21 +52,21 @@ a_cbm = nan(size(a_net_tab, 1), 1);
 a_far = nan(size(a_net_tab, 1), 1);
 fvcb_params = getFvCBParams;
 for i = 1:size(a_net_tab, 1)
-    
+
     % constraint-based prediction
     tmp_model = TGEM;
     I = a_net_tab.Irradiance_mumol_m2_s(i);
     tmp_model.C_a = a_net_tab.pCa_ubar(i);
     T = celsius2kelvin(a_net_tab.Temperature_C(i));
-    
+
     if ~isnan(a_net_tab.pO_mbar(i))
         tmp_model.O_a = a_net_tab.pO_mbar(i)*1000;
     end
-    
+
     if ~isnan(I) && ~isnan(T) && ~isnan(tmp_model.C_a)
         sol = simulateTempEffects(tmp_model, I, 'tempRange', T);
         a_cbm(i) = sol.A_max;
-        
+
         % FvCB model prediction
         a_far(i) = farquhar(...
             'T', T,...
@@ -112,22 +112,28 @@ msz = 20;
 letters = char(65:65+25);
 g_array = gobjects(numel(cats), 1);
 cb_array = gobjects(numel(cats), 1);
+
+% color blind friendly palette
+cb_colors = [[140 168 239]; [120 94 240]; [220 38 127]; [254 97 0]; ...
+    [255 176 0]; [159 194 106]]/255;
+markers = 'os^v';
 c = 0;
 for i = 1:numel(cats)
-    
+
     if isequal(headers{i}, 'Study')
         studies = categorical(a_net_tab_red.(headers{i}));
         X = grp2idx(studies);
         n_bins = numel(unique(X));
-        colors = colorcube(n_bins);
+        colors = repmat(cb_colors, ceil(n_bins/size(cb_colors, 1)), 1);
     else
         X = a_net_tab_red.(headers{i});
         X(isnan(X)) = mean(X, 'omitnan');
         n_bins = 7;
         colors = cool(n_bins);
+        markers = repelem('o', size(colors, 1), 1);
     end
     [~,edges,bins] = histcounts(X,'NumBins', n_bins);
-    
+
     c = c + 1;
     g_array(c) = nexttile;
     lm = fitlm([0 1], [0 1]);
@@ -137,16 +143,29 @@ for i = 1:numel(cats)
         'Color', 'k',...
         'LineWidth', 2)
     hold on
-    plt1 = scatter(g_array(c), A_exp, A_cbm, msz, 'filled',...
-        'CData', colors(bins,:),...
-        'MarkerEdgeColor', 'k');
+
+    if isequal(headers{i}, 'Study')
+        plt1 = zeros(ceil(n_bins/size(cb_colors, 1)), 1);
+        for j = 1:numel(plt1)
+            idx = (j-1)*size(cb_colors, 1)+1:j*size(cb_colors, 1);
+            plt1 = scatter(g_array(c), A_exp(ismember(bins, idx)), ...
+                A_cbm(ismember(bins, idx)), msz, 'filled',...
+                'CData', colors(bins(ismember(bins, idx)), :),...
+                'MarkerEdgeColor', 'k', ...
+                'Marker', markers(j));
+        end
+    else
+        plt1 = scatter(g_array(c), A_exp, A_cbm, msz, 'filled',...
+            'CData', colors(bins,:),...
+            'MarkerEdgeColor', 'k');
+    end
     text(g_array(c), 0.04, 0.92, letters(c),...
         'units', 'normalized',...
         'fontname', 'Arial',...
         'fontsize', 14,...
         'fontweight', 'bold')
     set(g_array(c), 'FontSize', 10, 'FontName', 'Arial')
-    
+
     c = c + 1;
     g_array(c) = nexttile;
     lm = fitlm([0 1], [0 1]);
@@ -156,17 +175,28 @@ for i = 1:numel(cats)
         'Color', 'k',...
         'LineWidth', 2)
     hold on
-    plt2 = scatter(g_array(c), A_exp, A_far, msz, 'filled',...
-        'CData', colors(bins,:),...
-        'Marker', 'd',...
-        'MarkerEdgeColor', 'k');
+    if isequal(headers{i}, 'Study')
+        plt2 = zeros(ceil(n_bins/size(cb_colors, 1)), 1);
+        for j = 1:numel(plt2)
+            idx = (j-1)*size(cb_colors, 1)+1:j*size(cb_colors, 1);
+            plt2 = scatter(g_array(c), A_exp(ismember(bins, idx)), ...
+                A_far(ismember(bins, idx)), msz, 'filled',...
+                'CData', colors(bins(ismember(bins, idx)), :),...
+                'MarkerEdgeColor', 'k', ...
+                'Marker', markers(j));
+        end
+    else
+        plt2 = scatter(g_array(c), A_exp, A_far, msz, 'filled',...
+            'CData', colors(bins,:),...
+            'MarkerEdgeColor', 'k');
+    end
     text(g_array(c), 0.04, 0.92, letters(c),...
         'units', 'normalized',...
         'fontname', 'Arial',...
         'fontsize', 14,...
         'fontweight', 'bold')
     set(g_array(c), 'FontSize', 10, 'FontName', 'Arial')
-    
+
     if ~isequal(headers{i}, 'Study')
         if isequal(headers{i}, 'Year')
             edges = round(edges);
@@ -178,11 +208,12 @@ for i = 1:numel(cats)
     else
         c = c + 1;
         g_array(c) = nexttile;
-        
+
         h = zeros(n_bins, 1);
         for j = 1:numel(h)
             h(j) = plot(NaN, NaN, 's', 'MarkerFaceColor', colors(j,:),...
-                'MarkerEdgeColor', 'k', 'MarkerSize', msz/3);
+                'MarkerEdgeColor', 'k', 'MarkerSize', msz/3, ...
+                'Marker', markers(ceil(j/size(cb_colors, 1))));
             hold on
         end
         studies_uniq = unique(a_net_tab_red.Study, 'stable');
@@ -193,12 +224,12 @@ for i = 1:numel(cats)
             'numcolumns', 4,...
             'location', 'w')
         set(g_array(c), 'Color', 'none', 'XColor', 'none', 'YColor', 'none')
-        
+
         c = c + 1;
         g_array(c) = nexttile;
         set(g_array(c), 'Color', 'none', 'XColor', 'none', 'YColor', 'none')
     end
-    
+
     if i==1
         [rho_cbm, p_cbm] = corr(A_exp, A_cbm,...
             'rows', 'complete');
@@ -209,7 +240,7 @@ for i = 1:numel(cats)
             'Location', 'se',...
             'box', 'off')
     end
-    
+
 end
 
 t.XLabel.String = 'A measured (\mumol m^{-2} s^{-1})';
@@ -221,7 +252,7 @@ for i = 1:numel(g_array)
     set(g_array(i), 'ylim', [-10 30])
 end
 
-saveas(gcf, 'a_net_exp_scatter_20231030.svg')
+saveas(gcf, 'a_net_exp_scatter.svg')
 
 %% CV and correlation
 
