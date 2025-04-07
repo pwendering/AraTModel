@@ -37,10 +37,22 @@ function [solution,photParams,gurobiSolution,gurobiProblem] = ...
 %                       mu_max: maximum growth rate over all pool solutions
 %                       A_min:  minium A over all pool solutions
 %                       A_max:  maximum A over all pool solutions
+%                       A_net:  net CO2 assimilation rate
+%                               calculated by
+%                               sum(fluxes cons. CO2) - sum(fluxes prod. CO2)
 %                       x_step1:solution vector associated with the
 %                               optimal solution to the first step
 %                       x_step2:solution vector associated with the
 %                               optimal solution to the second step
+%                       objVal: average objective value; if the
+%                               biomass reaction is the objective,
+%                               this field contains the same value
+%                               as the "mu" field and the unit will 
+%                               be h^-1, otherwise  [mmol gDW^-1 h^-1]
+%                       objVal_min: minimum objective value
+%                                   [h^-1]/[mmol gDW^-1 h^-1]
+%                       objVal_max: maximum objective value
+%                                   [h^-1]/[mmol gDW^-1 h^-1]
 %   struct photParams:          contains temperature-adjusted parameters of
 %                               for the C3 photosynthesis model
 %   struct gurobiSolution:      solution structure returned by the Gurobi

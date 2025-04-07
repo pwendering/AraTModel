@@ -47,8 +47,10 @@ function [simulationResult, photParams, fvcbParams, gurobiProblem] = simulateTem
 %                               default: []
 % OUTPUT
 %   struct simulationResult:    results from predicted flux distribution
-%                               .v      matrix with flux distributions as
-%                                       column vectors (#reactions x #temperatures)
+%                               .x_step1 solution vector associated with the
+%                                       optimal solution to the first step
+%                               .x_step2 solution vector associated with the
+%                                        optimal solution to the second step
 %                               .mu     average predicted relative growth rate [h^-1]
 %                               .mu_min minimum predicted relative growth rate [h^-1]
 %                                       (obtained from pool solutions)
@@ -67,11 +69,12 @@ function [simulationResult, photParams, fvcbParams, gurobiProblem] = simulateTem
 %                               .objVal average objective value; if the
 %                                       biomass reaction is the objective,
 %                                       this field contains the same value
-%                                       as the "mu" field [mmol gDW^-1 h^-1]
-%                               .objVal_min
-%                                       minimum objective value [mmol gDW^-1 h^-1]
-%                               .objVal_max
-%                                       maximum objective value [mmol gDW^-1 h^-1]
+%                                       as the "mu" field and the unit will 
+%                                       be h^-1, otherwise  [mmol gDW^-1 h^-1]
+%                               .objVal_min minimum objective value
+%                                           [h^-1]/[mmol gDW^-1 h^-1]
+%                               .objVal_max maximum objective value
+%                                           [h^-1]/[mmol gDW^-1 h^-1]
 %   struct photParams:          temperature-adjusted photosynthesis/CO2
 %                               uptake parameters
 %                               .Kc     Michaelis constant for the RuBisCO
