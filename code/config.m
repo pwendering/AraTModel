@@ -26,7 +26,7 @@ end
 %
 % Give here the absolute path to the AraTModel directory. The code files will be
 % added to the MATLAB path.
-pathToTGEM = 'C:\Users\pw543\OneDrive - University of Cambridge\Dokumente\TemperatureModelingManuscript\AraTModel';
+pathToTGEM = '';
 % add scripts and functions to the MATLAB search path
 if ~paramFlag && exist('simulateTempEffects', 'file') ~= 2
     addpath(genpath(fullfile(pathToTGEM, 'code', 'matlab')))
