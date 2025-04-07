@@ -26,7 +26,7 @@ end
 %
 % Give here the absolute path to the AraTModel directory. The code files will be
 % added to the MATLAB path.
-pathToTGEM = 'AraTModel';
+pathToTGEM = '';
 % add scripts and functions to the MATLAB search path
 if ~paramFlag && exist('simulateTempEffects', 'file') ~= 2
     addpath(genpath(fullfile(pathToTGEM, 'code', 'matlab')))
@@ -38,8 +38,7 @@ end
 %                          |-------------------|
 %
 % Path to the metabolic model.
-modelFile = fullfile(pathToTGEM, '..', 'ArabidopsisCoreModel',...
-    'AraCore_v2_1', 'AraCore_v2_1.mat');
+modelFile = fullfile(pathToTGEM, 'metabolic-models', 'AraCore_v2_1.mat');
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %            |-----------------------------------------------|
 %            |  Model configured for temperature adjustment  |
