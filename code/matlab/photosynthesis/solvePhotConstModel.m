@@ -53,6 +53,9 @@ if nargin < 2 || isempty(params) || numel(fieldnames(params)) == 0
     params = config('solver_params');
 end
 
+% save previous modelsense
+modelsense = qcp.modelsense;
+
 % number of reactions in the model
 A_IDX = find(ismember(qcp.varnames,'A'));
 % photon uptake reaction index
@@ -73,6 +76,7 @@ solution = struct('mu',[],'mu_min',[],'mu_max',[],...
 %% optimize for maximum growth
 qcp.obj = zeros(size(qcp.A,2),1);
 qcp.obj(BIO_IDX) = 1;
+qcp.modelsense = 'max';
 
 gurobiSolution = gurobi(qcp,params);
 solution.status = gurobiSolution.status;
@@ -130,7 +134,7 @@ if ~BIO_OBJ_FLAG
     qcp.ub(ABS_IDX) = 1.01*gurobiSolution.x(ABS_IDX);
     qcp.obj = zeros(size(qcp.A,2),1);
     qcp.obj(OBJ_IDX) = 1;
-    qcp.modelsense = 'max';
+    qcp.modelsense = modelsense;
     
     % solve problem
     gurobiSolution = gurobi(qcp,params);
