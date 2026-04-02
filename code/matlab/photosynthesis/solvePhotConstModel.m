@@ -8,8 +8,8 @@ function [solution,gurobiSolution] = solvePhotConstModel(qcp,params,nRxns)
 % Input:
 %   struct qcp:             quadratically-constraint optimization problem
 %                           formatted for the Gurobi solver (tested with
-%                           v9.1.1) as returned from the 'addCO2UptakeConstraints'
-%                           function
+%                           v9.1.1 - v 13.1) as returned from the function
+%                           'addCO2UptakeConstraints'
 %   struct params:          (optional) parameters to be passed to the
 %                           Gurobi solver
 %                           By default, the following settings are applied:
@@ -47,6 +47,9 @@ function [solution,gurobiSolution] = solvePhotConstModel(qcp,params,nRxns)
 %                                   [h^-1]/[mmol gDW^-1 h^-1]
 %   struct gurobiSolution:  solution structure returned by the Gurobi
 %                           solver
+
+% get gurobi version
+GRB_VERSION = str2double(char(regexp(which('gurobi'), '(?<=gurobi)\d+', 'match')));
 
 % set parameters to default settings if not specified
 if nargin < 2 || isempty(params) || numel(fieldnames(params)) == 0
@@ -86,7 +89,11 @@ if validateSolution(gurobiSolution)
     numSol = length(gurobiSolution.pool);
     tmpMu = nan(numSol,1);
     for j=1:numSol
-        tmpMu(j) = gurobiSolution.pool(j).xn(BIO_IDX);
+        if GRB_VERSION < 1300
+            tmpMu(j) = gurobiSolution.pool(j).xn(BIO_IDX);
+        else
+            tmpMu(j) = gurobiSolution.pool(j).poolnx(BIO_IDX);
+        end
     end
     
     solution.x_step1 = gurobiSolution.x(1:nRxns+2);
@@ -113,7 +120,11 @@ if validateSolution(gurobiSolution)
     numSol = length(gurobiSolution.pool);
     tmpA = nan(numSol,1);
     for j=1:numSol
-        tmpA(j) = gurobiSolution.pool(j).xn(A_IDX);
+        if GRB_VERSION < 1300
+            tmpA(j) = gurobiSolution.pool(j).xn(A_IDX);
+        else
+            tmpA(j) = gurobiSolution.pool(j).poolnx(A_IDX);
+        end
     end
     solution.A = mean(tmpA);
     solution.A_min = min(tmpA);
@@ -144,7 +155,11 @@ if ~BIO_OBJ_FLAG
         numSol = length(gurobiSolution.pool);
         tmpObj = nan(numSol,1);
         for j=1:numSol
-            tmpObj(j) = sum(gurobiSolution.pool(j).xn(OBJ_IDX));
+            if GRB_VERSION < 1300
+                tmpObj(j) = sum(gurobiSolution.pool(j).xn(OBJ_IDX));
+            else
+                tmpObj(j) = sum(gurobiSolution.pool(j).poolnx(OBJ_IDX));
+            end
         end
         solution.objVal = mean(tmpObj);
         solution.objVal_min = min(tmpObj);
