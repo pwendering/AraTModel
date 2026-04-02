@@ -93,6 +93,7 @@ rgr_tab(rem_col_idx, :) = [];
 
 % read SI table to match expected phenotypes
 lookup_tab = readtable(fullfile(file_path, 'si_table_ko_predictions.xlsx'));
+
 effects = cellfun(@(x)unique(lookup_tab.expectedPhenotype(ismember(lookup_tab.GeneID, x))),...
     rgr_tab.Gene, 'un', 0);
 effects(ismember(rgr_tab.Gene, 'WT')) = {'WT'};
